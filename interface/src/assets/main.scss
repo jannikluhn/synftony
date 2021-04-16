@@ -1,0 +1,9 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+$container-max-width: $desktop;
+$primary: $grey-darker;
+$control-radius: 0;
+$tabs-boxed-link-radius: 0;
+$text-invert: $green;
+
+@import "~bulma";

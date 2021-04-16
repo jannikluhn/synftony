@@ -1,0 +1,5 @@
+type Bar @entity {
+    id: ID!
+    owner: Bytes!
+    abc: String!
+}

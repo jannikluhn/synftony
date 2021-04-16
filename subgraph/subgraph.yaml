@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Synftony
+    network: xdai
+    source:
+      address: "0x194541E04755BE66c1EE4219CE2523DEC53C207C"
+      abi: Synftony
+      startBlock: 15563952
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - BarChanged
+        - Transfer
+      abis:
+        - name: Synftony
+          file: ./abis/Synftony.json
+      eventHandlers:
+        - event: BarChanged(indexed uint256,string)
+          handler: handleBarChanged
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
