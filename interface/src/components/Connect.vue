@@ -3,7 +3,10 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-half">
-          <div v-if="providerFound && !wrongNetwork && !account" class="notification">
+          <div
+            v-if="providerFound && !wrongNetwork && !account"
+            class="notification"
+          >
             <p class="has-text-centered">
               Press the button below to connect to your wallet.
             </p>
@@ -21,13 +24,15 @@
 
           <div v-if="!wrongNetwork && !providerFound" class="notification">
             <p class="has-text-centered">
-              No provider found. Please install a browser wallet such as Metamask and refresh the page.
+              No provider found. Please install a browser wallet such as
+              Metamask and refresh the page.
             </p>
           </div>
 
           <div v-if="wrongNetwork" class="notification">
             <p class="has-text-centered">
-              Your wallet is connected to the wrong network. Please select xDai and refresh the page.
+              Your wallet is connected to the wrong network. Please select xDai
+              and refresh the page.
             </p>
           </div>
         </div>

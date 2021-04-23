@@ -45,13 +45,13 @@ export default {
       const visualObj = abcjs.renderAbc(this.$refs.target, this.abc, {
         wrap: {
           minSpacing: 4,
-        }
+        },
       });
       const params = {
         options: {
           visualObj: visualObj,
         },
-      }
+      };
       this.synthController.setTune(visualObj[0], false, params);
     },
   },

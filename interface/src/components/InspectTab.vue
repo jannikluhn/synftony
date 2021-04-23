@@ -103,7 +103,7 @@ export default {
     return {
       transferModalShown: false,
       transferredBar: null,
-      
+
       editModalShown: false,
       editedBar: null,
 
@@ -131,12 +131,12 @@ export default {
     hideAllModals() {
       this.transferModalShown = false;
       this.transferredBar = null;
-  
+
       this.editModalShown = false;
       this.editedBar = null;
 
       this.mintModalShown = false;
-    }
+    },
   },
 };
 </script>

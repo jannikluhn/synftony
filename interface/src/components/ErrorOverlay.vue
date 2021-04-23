@@ -25,7 +25,7 @@ export default {
     return {
       errors: [],
       errorCounter: 0,
-    }
+    };
   },
 
   created() {
@@ -46,7 +46,7 @@ export default {
     },
 
     onCloseMessage(key) {
-      const index = this.errors.map(e => e.key).indexOf(key);
+      const index = this.errors.map((e) => e.key).indexOf(key);
       this.errors.splice(index, 1);
     },
   },

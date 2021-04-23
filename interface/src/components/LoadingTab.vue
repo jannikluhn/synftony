@@ -1,7 +1,12 @@
 <template>
   <div class="columns is-centered">
     <div class="column is-narrow">
-      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
@@ -9,7 +14,7 @@
 <script>
 export default {
   name: "LoadingTab",
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -83,6 +88,4 @@ export default {
     transform: translate(24px, 0);
   }
 }
-
-
 </style>

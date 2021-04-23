@@ -2,7 +2,11 @@
   <div class="message is-danger">
     <div class="message-header">
       <p>Error</p>
-      <button class="delete" aria-label="delete" @click="$emit('closed')"></button>
+      <button
+        class="delete"
+        aria-label="delete"
+        @click="$emit('closed')"
+      ></button>
     </div>
     <div class="message-body">
       <p>{{ message }}</p>
@@ -14,7 +18,7 @@
 export default {
   name: "ErrorMessage",
   props: ["message"],
-}
+};
 </script>
 
 <style lang="scss" scoped>

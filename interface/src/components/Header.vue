@@ -14,10 +14,20 @@
     <div class="hero-foot">
       <nav class="tabs is-centered is-large is-boxed">
         <ul>
-          <li :class="{ 'is-active': tab == 'listen', 'has-text-black': tab == 'listen' }">
+          <li
+            :class="{
+              'is-active': tab == 'listen',
+              'has-text-black': tab == 'listen',
+            }"
+          >
             <a @click="changeTab('listen')">Piece</a>
           </li>
-          <li :class="{ 'is-active': tab == 'inspect', 'has-text-black': tab == 'inspect' }">
+          <li
+            :class="{
+              'is-active': tab == 'inspect',
+              'has-text-black': tab == 'inspect',
+            }"
+          >
             <a @click="changeTab('inspect')">In Pieces</a>
           </li>
         </ul>

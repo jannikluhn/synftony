@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <Header @tabChanged="onTabChanged" />
-    <Main :wrongNetwork="wrongNetwork" :account="account" :tab="tab" :bars="bars" :loadingBars="loadingBars" />
+    <Main
+      :wrongNetwork="wrongNetwork"
+      :account="account"
+      :tab="tab"
+      :bars="bars"
+      :loadingBars="loadingBars"
+    />
   </div>
 </template>
 
@@ -34,13 +40,13 @@ export default {
       bars: null,
       account: null,
       wrongNetwork: false,
-      loadingBars: true
+      loadingBars: true,
     };
   },
 
   created() {
-    this.checkNetwork()
-    this.loadAccount()
+    this.checkNetwork();
+    this.loadAccount();
 
     this.$apolloClient
       .query({ query: query })
@@ -61,7 +67,7 @@ export default {
       })
       .finally(() => {
         this.loadingBars = false;
-      })
+      });
   },
 
   methods: {
@@ -78,18 +84,21 @@ export default {
 
     checkNetwork() {
       if (!this.$provider) {
-        this.wrongNetwork = false
-        return
+        this.wrongNetwork = false;
+        return;
       }
-      this.$provider.getNetwork().then((network) => {
-        this.wrongNetwork = network.chainId != 100 // xdai
-      }).catch((error) => {
-        this.$error("Failed to query network", error)
-      })
+      this.$provider
+        .getNetwork()
+        .then((network) => {
+          this.wrongNetwork = network.chainId != 100; // xdai
+        })
+        .catch((error) => {
+          this.$error("Failed to query network", error);
+        });
     },
     loadAccount() {
       if (!this.$provider) {
-        return
+        return;
       }
       this.$provider
         .listAccounts()
@@ -102,7 +111,7 @@ export default {
         .finally(() => {
           window.ethereum.on("accountsChanged", this.onAccountsChanged);
         });
-    }
+    },
   },
 };
 </script>

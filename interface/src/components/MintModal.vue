@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" :class="{'is-active': true}">
+  <div class="modal" :class="{ 'is-active': true }">
     <div class="modal-background" @click="close"></div>
     <div class="modal-card">
       <header class="modal-card-head">
@@ -10,7 +10,12 @@
         <form>
           <div class="field">
             <label class="label">Notes in ABC notation</label>
-            <input class="input" type="text" placeholder="" v-model="abcInput">
+            <input
+              class="input"
+              type="text"
+              placeholder=""
+              v-model="abcInput"
+            />
             <p v-if="!inputErrorMessage" class="help is-success">Valid input</p>
             <p v-else class="help is-danger">{{ inputErrorMessage }}</p>
           </div>
@@ -28,7 +33,14 @@
       </section>
 
       <footer class="modal-card-foot">
-        <button class="button is-primary" @click="mint" :class="{'is-loading': waiting}" :disabled="mintButtonDisabled">Mint</button>
+        <button
+          class="button is-primary"
+          @click="mint"
+          :class="{ 'is-loading': waiting }"
+          :disabled="mintButtonDisabled"
+        >
+          Mint
+        </button>
         <button class="button" @click="close">Cancel</button>
         <p>Mint fee: {{ (price * 1e-18).toString() }} xDai</p>
       </footer>
@@ -39,7 +51,6 @@
 <script>
 import abcjs from "abcjs";
 import { audioParams } from "../config.js";
-
 
 const visualOptions = {
   displayLoop: true,
@@ -74,7 +85,7 @@ export default {
       price: null,
       mounted: false,
       error: null,
-    }
+    };
   },
 
   computed: {
@@ -82,11 +93,17 @@ export default {
       return "abcjs-player-".concat(this._uid);
     },
     mintButtonDisabled() {
-      return this.waiting || this.price == null || !this.abcInput || !this.abcChecks.valid || !this.tuneChecks.valid
+      return (
+        this.waiting ||
+        this.price == null ||
+        !this.abcInput ||
+        !this.abcChecks.valid ||
+        !this.tuneChecks.valid
+      );
     },
     inputErrorMessage() {
       if (!this.abcChecks) {
-        return null
+        return null;
       }
       return getValidationErrorMessage(this.abcChecks, this.tuneChecks);
     },
@@ -102,11 +119,14 @@ export default {
   },
 
   created() {
-    this.$contract.price().then((price) => {
-      this.price = price
-    }).catch((error) => {
-      this.error = "Failed to query price: " + error.message;
-    })
+    this.$contract
+      .price()
+      .then((price) => {
+        this.price = price;
+      })
+      .catch((error) => {
+        this.error = "Failed to query price: " + error.message;
+      });
   },
 
   mounted() {
@@ -129,51 +149,50 @@ export default {
       if (this.abcChecks.valid) {
         this.tuneChecks = validateTunes(tunes);
       } else {
-        this.tuneChecks = null
+        this.tuneChecks = null;
       }
-      
+
       if (this.mounted) {
         this.synthController = new abcjs.synth.SynthController();
-        this.synthController.load("#".concat(this.controllerDomID), {}, visualOptions);
+        this.synthController.load(
+          "#".concat(this.controllerDomID),
+          {},
+          visualOptions
+        );
         this.synthController.setTune(tunes[0], false, audioParams);
       }
     },
     async mint() {
       if (this.mintButtonDisabled) {
-        return
+        return;
       }
 
       this.waiting = true;
       this.error = null;
       let tx;
       try {
-        const signer = this.$provider.getSigner(this.account)
-        const contract = this.$contract.connect(signer)
-        tx = await contract.mintBar(
-          this.account,
-          this.barID,
-          this.abcInput,
-          {
-            value: this.price,
-          },
-        )
+        const signer = this.$provider.getSigner(this.account);
+        const contract = this.$contract.connect(signer);
+        tx = await contract.mintBar(this.account, this.barID, this.abcInput, {
+          value: this.price,
+        });
       } catch (error) {
         this.error = "Failed to send mint transaction: " + error.message;
-        this.waiting = false
-        return
+        this.waiting = false;
+        return;
       }
 
       try {
-        await tx.wait()
+        await tx.wait();
       } catch (error) {
         this.error = "Mint transaction failed: " + error.message;
         this.waiting = false;
-        return
+        return;
       }
 
       this.waiting = false;
       this.close();
     },
-  }
+  },
 };
 </script>

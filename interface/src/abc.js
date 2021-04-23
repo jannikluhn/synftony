@@ -8,7 +8,7 @@ export function validateABCSize(abc) {
 }
 
 export function validateABCChars(abc) {
-  return preValidationRegex.test(abc)
+  return preValidationRegex.test(abc);
 }
 
 export function validateABC(abc) {
@@ -23,7 +23,7 @@ export function validateABC(abc) {
     }
   }
   checks.valid = valid;
-  return checks
+  return checks;
 }
 
 export function validateDuration(tunes) {
@@ -100,7 +100,6 @@ export function validateTunes(tunes) {
     checks.chords = validateChords(tunes);
   }
 
-
   let valid = true;
   for (const p in checks) {
     if (!checks[p]) {
@@ -121,7 +120,7 @@ export const placeholderBarABC = "z8";
 
 export function getValidationErrorMessage(abcChecks, tuneChecks) {
   if (!abcChecks.size) {
-    return "Input too long"
+    return "Input too long";
   }
   if (!abcChecks.chars) {
     return "Input contains invalid characters";
@@ -133,7 +132,7 @@ export function getValidationErrorMessage(abcChecks, tuneChecks) {
     return "Bar is too long or too short";
   }
   if (!tuneChecks.pitches) {
-    return "Bar contains pitches outside of the allowed range"
+    return "Bar contains pitches outside of the allowed range";
   }
   if (!tuneChecks.chords) {
     return "Bar contains coords";
