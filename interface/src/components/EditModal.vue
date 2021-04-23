@@ -19,6 +19,12 @@
             <div ref="target"></div>
             <div :id="controllerDomID"></div>
           </div>
+
+          <div v-if="error" class="message is-danger">
+            <div class="message-body">
+              <p>{{ error }}</p>
+            </div>
+          </div>
         </form>
       </section>
 
@@ -65,6 +71,7 @@ export default {
       waiting: false,
       synthController: null,
       mounted: false,
+      error: null,
     }
   },
 
@@ -79,7 +86,7 @@ export default {
       return getValidationErrorMessage(this.abcChecks, this.tuneChecks);
     },
     editButtonDisabled() {
-      return this.waiting || this.inputErrorMessage;
+      return this.waiting || this.inputErrorMessage || this.abcInput == this.previousABC;
     },
   },
 
@@ -134,6 +141,7 @@ export default {
         return
       }
 
+      this.error = null;
       this.waiting = true;
       let tx;
       try {
@@ -144,7 +152,7 @@ export default {
           this.abcInput,
         )
       } catch (error) {
-        this.$error('failed to send edit transaction', error)
+        this.error = 'Failed to send edit transaction: ' + error.message;
         this.waiting = false
         return
       }
@@ -152,7 +160,7 @@ export default {
       try {
         await tx.wait()
       } catch (error) {
-        this.$error('edit transaction failed', error)
+        this.error = 'Edit transaction failed: ' + error.message;
         this.waiting = false;
         return
       }

@@ -57,7 +57,7 @@ export default {
         this.bars = bars;
       })
       .catch((error) => {
-        this.$error("failed to query graph", error);
+        this.$error("Failed to query graph", error);
       })
       .finally(() => {
         this.loadingBars = false;
@@ -84,7 +84,7 @@ export default {
       this.$provider.getNetwork().then((network) => {
         this.wrongNetwork = network.chainId != 100 // xdai
       }).catch((error) => {
-        this.$error("failed to query network", error)
+        this.$error("Failed to query network", error)
       })
     },
     loadAccount() {
@@ -97,7 +97,7 @@ export default {
           this.onAccountsChanged(accounts);
         })
         .catch((error) => {
-          this.$error("failed to get accounts", error);
+          this.$error("Failed to get accounts", error);
         })
         .finally(() => {
           window.ethereum.on("accountsChanged", this.onAccountsChanged);

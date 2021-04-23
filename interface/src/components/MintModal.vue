@@ -19,13 +19,18 @@
             <div ref="target"></div>
             <div :id="controllerDomID"></div>
           </div>
+          <div v-if="error" class="message is-danger">
+            <div class="message-body">
+              <p>{{ error }}</p>
+            </div>
+          </div>
         </form>
-        <p>The mint fee amounts to {{ (price * 1e-18).toString() }} xDai.</p>
       </section>
 
       <footer class="modal-card-foot">
         <button class="button is-primary" @click="mint" :class="{'is-loading': waiting}" :disabled="mintButtonDisabled">Mint</button>
         <button class="button" @click="close">Cancel</button>
+        <p>Mint fee: {{ (price * 1e-18).toString() }} xDai</p>
       </footer>
     </div>
   </div>
@@ -68,6 +73,7 @@ export default {
       synthController: null,
       price: null,
       mounted: false,
+      error: null,
     }
   },
 
@@ -99,7 +105,7 @@ export default {
     this.$contract.price().then((price) => {
       this.price = price
     }).catch((error) => {
-      this.$error("failed to query price", error);
+      this.error = "Failed to query price: " + error.message;
     })
   },
 
@@ -138,6 +144,7 @@ export default {
       }
 
       this.waiting = true;
+      this.error = null;
       let tx;
       try {
         const signer = this.$provider.getSigner(this.account)
@@ -151,7 +158,7 @@ export default {
           },
         )
       } catch (error) {
-        this.$error('failed to send mint transaction', error)
+        this.error = "Failed to send mint transaction: " + error.message;
         this.waiting = false
         return
       }
@@ -159,7 +166,7 @@ export default {
       try {
         await tx.wait()
       } catch (error) {
-        this.$error('mint transaction failed', error)
+        this.error = "Mint transaction failed: " + error.message;
         this.waiting = false;
         return
       }

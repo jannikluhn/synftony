@@ -1,6 +1,12 @@
 <template>
-  <div class="notification is-danger">
-    <p>{{ message }}</p>
+  <div class="message is-danger">
+    <div class="message-header">
+      <p>Error</p>
+      <button class="delete" aria-label="delete" @click="$emit('closed')"></button>
+    </div>
+    <div class="message-body">
+      <p>{{ message }}</p>
+    </div>
   </div>
 </template>
 
@@ -10,3 +16,9 @@ export default {
   props: ["message"],
 }
 </script>
+
+<style lang="scss" scoped>
+.message {
+  pointer-events: auto;
+}
+</style>

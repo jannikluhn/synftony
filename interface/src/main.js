@@ -5,6 +5,7 @@ import App from "./App.vue";
 import { ethers } from "ethers";
 import SynftonyMetadata from "./assets/Synftony.json";
 import { address } from "./assets/addresses.js";
+import { callErrorCallbacks } from "./errors.js";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 
 Vue.config.productionTip = false;
@@ -26,7 +27,7 @@ const apolloClient = new ApolloClient({
 });
 Vue.prototype.$apolloClient = apolloClient;
 
-Vue.prototype.$error = console.log;
+Vue.prototype.$error = callErrorCallbacks;
 
 new Vue({
   render: (h) => h(App),

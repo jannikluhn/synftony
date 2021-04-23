@@ -14,6 +14,11 @@
             <p v-if="addressInputValid" class="help is-success">Valid address</p>
             <p v-else class="help is-danger">Invalid address</p>
           </div>
+          <div v-if="error" class="message is-danger">
+            <div class="message-body">
+              <p>{{ error }}</p>
+            </div>
+          </div>
         </form>
       </section>
 
@@ -35,6 +40,7 @@ export default {
     return {
       addressInput: "",
       waiting: false,
+      error: null,
     }
   },
 
@@ -58,6 +64,7 @@ export default {
       }
 
       this.waiting = true;
+      this.error = null;
       let tx;
       try {
         const signer = this.$provider.getSigner(this.account)
@@ -68,7 +75,7 @@ export default {
           this.barID,
         )
       } catch (error) {
-        this.$error('failed to send transfer transaction', error)
+        this.error = 'Failed to send transfer transaction: ' + error.message;
         this.waiting = false
         return
       }
@@ -76,7 +83,7 @@ export default {
       try {
         await tx.wait()
       } catch (error) {
-        this.$error('transfer transaction failed', error)
+        this.error = 'Transfer transaction failed: ' + error.message;
         this.waiting = false;
         return
       }

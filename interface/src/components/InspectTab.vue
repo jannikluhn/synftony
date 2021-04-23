@@ -1,9 +1,8 @@
 <template>
   <div>
-    <Connect :wrongNetwork="wrongNetwork" :account="account" />
-
     <section class="section">
-      <div class="container">
+      <Connect :wrongNetwork="wrongNetwork" :account="account" />
+      <div class="container mt-5">
         <table class="table is-fullwidth">
           <thead>
             <th>Index</th>

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <ErrorOverlay />
     <div v-if="loadingBars">
       <LoadingTab />
     </div>
     <div v-else>
+      <ErrorOverlay />
       <ListenTab v-show="tab == 'listen'" :abc="sanitizedABC" />
       <InspectTab
         v-show="tab == 'inspect'"
