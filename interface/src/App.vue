@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       tab: "listen",
-      bars: null,
+      bars: [],
       account: null,
       wrongNetwork: false,
       loadingBars: true,
@@ -61,6 +61,11 @@ export default {
         }
         bars.sort((a, b) => a.id - b.id);
         this.bars = bars;
+
+        if (this.$contract) {
+          this.$contract.on("Transfer", this.onTransfer);
+          this.$contract.on("BarChanged", this.onBarChanged);
+        }
       })
       .catch((error) => {
         this.$error("Failed to query graph", error);
@@ -80,6 +85,39 @@ export default {
       } else {
         this.account = ethers.utils.getAddress(accounts[0]);
       }
+    },
+
+    onTransfer(from, to, barIndex) {
+      barIndex = ethers.BigNumber.from(barIndex).toNumber();
+      to = ethers.utils.getAddress(to);
+
+      console.assert(barIndex <= this.bars.length);
+      if (barIndex == this.bars.length) {
+        // newly minted
+        const bar = {
+          id: barIndex,
+          owner: to,
+          abc: "",  // will be filled in BarChanged event
+        }
+        this.bars.push(bar);
+      } else {
+        // transferred
+        this.bars.splice(barIndex, 1, {
+          id: barIndex,
+          owner: to,
+          abc: this.bars[barIndex].abc,
+        });
+      }
+    },
+    onBarChanged(barIndex, abc) {
+      barIndex = ethers.BigNumber.from(barIndex).toNumber();
+
+      console.assert(barIndex < this.bars.length);
+      this.bars.splice(barIndex, 1, {
+        id: barIndex,
+        owner: this.bars[barIndex].owner,
+        abc: abc,
+      });
     },
 
     checkNetwork() {

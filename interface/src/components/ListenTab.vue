@@ -47,6 +47,8 @@ export default {
           minSpacing: 4,
         },
       });
+
+      this.synthController.disable(true);
       const params = {
         options: {
           visualObj: visualObj,
